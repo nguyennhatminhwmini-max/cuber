@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08111f">
+    <meta name="description" content="Công cụ học tập phân tích dấu hiệu rủi ro của đường dẫn website.">
+    <title>NHẬT MINH CHECKER | Trung tâm bảo mật và an toàn thông tin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="/">
+                <span class="brand-icon">盾</span>
+                <span><strong>CYBER<span class="brand-accent">GUARD</span></strong><small>TRUNG TÂM AN TOÀN SỐ</small></span>
+            </a>
+
+            <div class="nav-label">TỔNG QUAN</div>
+            <a class="nav-item active" href="#tong-quan"><span>▦</span> Bảng điều khiển</a>
+            <a class="nav-item" href="#kiem-tra"><span>⌕</span> Kiểm tra đường dẫn</a>
+            <a class="nav-item" href="#lich-su"><span>◷</span> Lịch sử kiểm tra</a>
+
+            <div class="sidebar-note">
+                <span class="status-dot"></span>
+                <div><strong>Hệ thống hoạt động</strong><small>Chế độ phân tích cục bộ</small></div>
+            </div>
+            <div class="sidebar-bottom">DỰ ÁN HỌC TẬP AN TOÀN THÔNG TIN<br>Phiên bản 2.0.0</div>
+        </aside>
+
+        <main class="main-content" id="tong-quan">
+            <header class="topbar">
+                <div>
+                    <div class="eyebrow">TRUNG TÂM PHÂN TÍCH ĐƯỜNG DẪN</div>
+                    <h1>Bảng điều khiển</h1>
+                </div>
+                <div class="topbar-right">
+                    <span class="live-pill"><span class="status-dot"></span> ĐANG HOẠT ĐỘNG</span>
+                    <span class="avatar">CG</span>
+                </div>
+            </header>
+
+            <section class="welcome-card">
+                <div class="welcome-copy">
+                    <div class="eyebrow light">BẢO VỆ BẠN TRÊN KHÔNG GIAN SỐ</div>
+                    <h2>Kiểm tra đường dẫn.<br><span>Nhận diện rủi ro.</span></h2>
+                    <p>Phân tích các dấu hiệu đáng ngờ trong URL trước khi bạn truy cập hoặc chia sẻ.</p>
+                    <a class="primary-link" href="#kiem-tra">Bắt đầu kiểm tra <span>→</span></a>
+                </div>
+                <div class="shield-art" aria-hidden="true">
+                    <div class="shield-ring ring-one"></div>
+                    <div class="shield-ring ring-two"></div>
+                    <div class="shield-core">✓</div>
+                    <span class="orbit orbit-a">●</span><span class="orbit orbit-b">✦</span>
+                </div>
+            </section>
+
+            <section class="stats-grid" aria-label="Thống kê">
+                <article class="stat-card">
+                    <div class="stat-top"><span>TỔNG LẦN KIỂM TRA</span><span class="stat-icon blue">⌕</span></div>
+                    <strong id="total-scans">0</strong><small>Tối đa 100 bản ghi gần nhất</small>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-top"><span>RỦI RO CAO</span><span class="stat-icon red">!</span></div>
+                    <strong id="high-scans">0</strong><small>Lần kiểm tra có điểm từ 50 trở lên</small>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-top"><span>RỦI RO TRUNG BÌNH</span><span class="stat-icon yellow">◇</span></div>
+                    <strong id="medium-scans">0</strong><small>Lần kiểm tra có điểm từ 20 đến 49</small>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-top"><span>RỦI RO THẤP</span><span class="stat-icon green">✓</span></div>
+                    <strong id="low-scans">0</strong><small>Lần kiểm tra có điểm dưới 20</small>
+                </article>
+            </section>
+
+            <section class="panel scanner-panel" id="kiem-tra">
+                <div class="section-heading">
+                    <div><div class="eyebrow">CÔNG CỤ PHÂN TÍCH</div><h2>Kiểm tra đường dẫn website</h2></div>
+                    <span class="local-tag">● PHÂN TÍCH CỤC BỘ</span>
+                </div>
+                <p class="muted">Nhập đường dẫn đầy đủ, bao gồm <code>https://</code> hoặc <code>http://</code>.</p>
+                <form id="scan-form" class="scan-form">
+                    <label class="sr-only" for="url-input">Đường dẫn website cần kiểm tra</label>
+                    <span class="input-icon">⌕</span>
+                    <input id="url-input" name="url" type="text" maxlength="2048"
+                           placeholder="Ví dụ: https://example.com" autocomplete="url" required>
+                    <button id="scan-button" type="submit"><span>⌕</span> PHÂN TÍCH</button>
+                </form>
+                <div class="input-hint"><span>ⓘ</span> Công cụ không truy cập website và không gửi đường dẫn đến dịch vụ bên ngoài.</div>
+                <div id="error-message" class="message error-message" role="alert" hidden></div>
+
+                <section id="result-panel" class="result-panel" aria-live="polite" hidden>
+                    <div class="result-header">
+                        <div><div class="eyebrow">KẾT QUẢ PHÂN TÍCH</div><h3 id="result-title">Kết quả kiểm tra</h3></div>
+                        <span id="risk-badge" class="risk-badge">RỦI RO THẤP</span>
+                    </div>
+                    <div class="result-main">
+                        <div class="score-circle" id="score-circle">
+                            <strong id="risk-score">0</strong><span>/ 100</span>
+                            <small>ĐIỂM RỦI RO</small>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-row"><span>Tên miền</span><strong id="result-domain">—</strong></div>
+                            <div class="detail-row"><span>Giao thức</span><strong id="result-scheme">—</strong></div>
+                            <div class="detail-row"><span>Thời gian kiểm tra</span><strong id="result-time">—</strong></div>
+                        </div>
+                    </div>
+                    <div class="findings">
+                        <h4>Những dấu hiệu được phát hiện</h4>
+                        <ul id="reasons-list"></ul>
+                    </div>
+                    <div class="advice-box"><strong>Khuyến nghị:</strong><p id="result-advice"></p></div>
+                    <p class="disclaimer">Điểm số chỉ dựa trên các quy tắc cơ bản của dự án học tập. Điểm thấp không đồng nghĩa website chắc chắn an toàn.</p>
+                </section>
+            </section>
+
+            <section class="panel history-panel" id="lich-su">
+                <div class="section-heading">
+                    <div><div class="eyebrow">THEO DÕI HOẠT ĐỘNG</div><h2>Lịch sử kiểm tra gần đây</h2></div>
+                    <button id="clear-history" class="secondary-button" type="button">Xóa lịch sử</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>ĐƯỜNG DẪN</th><th>TÊN MIỀN</th><th>ĐIỂM RỦI RO</th><th>MỨC ĐỘ</th><th>THỜI GIAN</th><th></th></tr></thead>
+                        <tbody id="history-body"><tr><td colspan="6" class="empty-state">Chưa có dữ liệu kiểm tra.</td></tr></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                <span>CYBERGUARD · DỰ ÁN HỌC TẬP AN TOÀN THÔNG TIN</span>
+                <span>Không thay thế dịch vụ đánh giá bảo mật chuyên nghiệp.</span>
+            </footer>
+        </main>
+    </div>
+
+    <div id="detail-modal" class="modal" hidden>
+        <div class="modal-backdrop" data-close-modal></div>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button class="modal-close" type="button" data-close-modal aria-label="Đóng">×</button>
+            <div class="eyebrow">CHI TIẾT LẦN KIỂM TRA</div>
+            <h2 id="modal-title">Thông tin phân tích</h2>
+            <div id="modal-content"></div>
+        </section>
+    </div>
+</body>
+</html>
